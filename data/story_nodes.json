@@ -1,0 +1,113 @@
+{
+  "node_intro": {
+    "text": "Գիշեր է։ Դրսում անձրև է գալիս։ Դուք նստած եք ձեր հին գրամեքենայի առջև և փորձում եք ավարտել ձեր դետեկտիվը։ Հանկարծ գրամեքենան սկսում է ինքնուրույն տպել` «ԴՈՒ ԳԱՂՏՆԻՔՆԵՐ ՈՒՆԵՍ»։ Իրականությունը ճաքում է, և ձեր կերպարները՝ Բելլան ու Վահանը, հայտնվում են սենյակում։ Նրանք ուրվականներ չեն․ նրանք ձեր սխալների մարմնացումն են։",
+    "character": "Հեղինակ",
+    "image": "https://preview.redd.it/a-rather-moody-photo-i-took-in-a-cafe-shot-on-film-unedited-v0-embasa6yng9a1.jpg?width=640&crop=smart&auto=webp&s=18d5e16aae2aae5e18639ba5687cfd53be871abc",
+    "choices": [
+      { "text": "Հարցնել, թե ինչ է կատարվում", "nextNode": "node_rebellion" }
+    ]
+  },
+  "node_rebellion": {
+    "text": "«Դու մեզ վատ ես գրել,– ասում է Բելլան՝ ծխելով իր երկար սիգարետը։– Մենք ստվերներ ենք, ոչ թե` մարդիկ։ Դու խախտել ես բոլոր կանոնները»։ Վահանը մոտենում է պատուհանին։ «Եթե ուզում ես, որ մենք անհետանանք, և քո պատմությունը շարունակվի, պետք է ապացուցես, որ տիրապետում ես գրական արվեստին»։",
+    "character": "Բելլա",
+    "image": "https://media.istockphoto.com/id/164773693/photo/silhouettes-of-people-walking-into-light.jpg?s=612x612&w=0&k=20&c=GkqvHTGH7-k8bOk2VmgU4R-2KGMh-vRNIGvuXFr0MgM=",
+    "choices": [
+      { "text": "Ընդունել մարտահրավերը", "nextNode": "puzzle_phase1" }
+    ]
+  },
+  "puzzle_phase1": {
+    "type": "puzzle",
+    "puzzleId": "rashomon_sort",
+    "successNode": "node_phase2"
+  },
+  "node_phase2": {
+    "text": "Բելլան անհետանում է մթության մեջ, բայց նրա ձայնը դեռ հնչում է․ «Լավ է, դու ըմբռնեցիր էությունը։ Բայց քո նկարագրությունները չոր են, ինչպես ավազը։ Դու մեզ չես ստիպում զգալ։ Դու պարզապես պատմում ես մեր զգացմունքների մասին՝ դրանք ցույց տալու փոխարեն»։",
+    "character": "Բելլա",
+    "image": "https://ketamineclinicofwesttexas.com/wp-content/uploads/2024/05/how-to-deal-with-ptsd-nightmares.jpg",
+    "choices": [
+      { "text": "Սովորել «Ցույց տալ» արվեստը", "nextNode": "puzzle_phase2" }
+    ]
+  },
+  "puzzle_phase2": {
+    "type": "puzzle",
+    "puzzleId": "eraser_puzzle",
+    "successNode": "node_phase3"
+  },
+  "node_phase3": {
+    "text": "Սենյակը սկսում է լցվել թանաքի հոտով։ Վահանը նայում է ձեզ։ «Տեսարանը կենդանացավ։ Բայց մենք չենք կարող խոսել։ Քո կետադրությունը խեղդում է մեր ձայները։ Խոսքը պետք է ունենա կշիռ, այլապես այն պարզապես աղմուկ է»։",
+    "character": "Վահան",
+    "image": "https://c1.wallpaperflare.com/preview/989/322/353/blind-shadow-window-eprson.jpg",
+    "choices": [
+      { "text": "Կարգավորել երկխոսությունը", "nextNode": "puzzle_phase3" }
+    ]
+  },
+  "puzzle_phase3": {
+    "type": "puzzle",
+    "puzzleId": "punctuation_puzzle",
+    "successNode": "node_phase4"
+  },
+  "node_phase4": {
+    "text": "Գրամեքենան սկսում է խելահեղորեն աշխատել։ Էջերը թռչում են օդում։ «Ժամանակագրությունը խախտվել է,– բղավում է Բելլան։– Դու պատմում ես դեպքերը այնպես, ինչպես դրանք տեղի են ունեցել, բայց դա ձանձրալի է։ Գրողը ժամանակի տիրակալն է, ոչ թե ստրուկը։ Կառուցիր սյուժեն»։",
+    "character": "Բելլա",
+    "image": "https://images.stockcake.com/public/e/6/2/e62f1530-8b7c-4cbf-b900-d8d56745bb81/chaotic-paper-cascade-stockcake.jpg",
+    "choices": [
+      { "text": "Վերակառուցել Սյուժեն", "nextNode": "puzzle_phase4" }
+    ]
+  },
+  "puzzle_phase4": {
+    "type": "puzzle",
+    "puzzleId": "timeline_puzzle",
+    "successNode": "node_phase5"
+  },
+  "node_phase5": {
+    "text": "Լռություն է։ Բայց դա տագնապալի լռություն է։ Վահանը մոտենում է ձեր սեղանին և վերցնում մի պատռված թուղթ։ «Այս ամենը ինչի՞ մասին է։ Մենք պարզապես կերպարնե՞ր ենք, թե՞ քո անցյալի ստվերները։ Գտիր այն վերնագիրը, որը միավորում է այս քաոսը»։",
+    "character": "Վահան",
+    "image": "https://images.stockcake.com/public/8/a/b/8abb3cb7-2457-4dac-9661-aa9b51da6695_large/antique-writing-desk-stockcake.jpg",
+    "choices": [
+      { "text": "Բացահայտել Վերնագիրը", "nextNode": "puzzle_phase5" }
+    ]
+  },
+  "puzzle_phase5": {
+    "type": "puzzle",
+    "puzzleId": "cipher_puzzle",
+    "successNode": "node_phase6"
+  },
+  "node_phase6": {
+    "text": "«Թանաքի հաշվեհարդար…»,– շշնջում եք դուք և մատներով հարվածում ստեղնաշարին՝ տպելով վերնագիրը։ Այդ հարվածից սենյակի պատերը ճաք են տալիս ու սկսում փլվել։ Բելլան և Վահանը նայում են միմյանց։ «Սա վերջին կռիվն է,– ասում է Բելլան։– Պատմությունը չի կարող ավարտվել առանց վերջնական կոնֆլիկտի։ Դիմադրիր քաոսին»։",
+    "character": "Բելլա",
+    "image": "https://images.stockcake.com/public/c/d/b/cdb3e61f-d3bf-4087-b289-bebe0d79280f_large/ink-disrupts-writing-stockcake.jpg",
+    "choices": [
+      { "text": "Հաղթահարել Կոնֆլիկտը", "nextNode": "puzzle_phase6" }
+    ]
+  },
+  "puzzle_phase6": {
+    "type": "puzzle",
+    "puzzleId": "rapid_conflict_puzzle",
+    "successNode": "node_final"
+  },
+  "node_final": {
+    "text": "Ամեն ինչ լռում է։ Դուք կրկին ձեր սենյակում եք։ Բելլան և Վահանը չկան։ Գրամեքենայի մեջ մաքուր էջ է։ Դուք հիմա տիրապետում եք գաղտնիքներին։ Դուք պատրաստ եք գրել ձեր գլուխգործոցը։ Կամ գուցե պարզապես կջնջեք այս ամենը և կսկսեք նոր կյանք։",
+    "character": "Հեղինակ",
+    "image": "https://images.stockcake.com/public/7/c/1/7c1421dc-baad-4bd1-945a-29fca3586e6b/typewriter-by-window-stockcake.jpg",
+    "choices": [
+      { "text": "Գրել Գլուխգործոցը", "nextNode": "ending_masterpiece" },
+      { "text": "Ջնջել Անցյալը", "nextNode": "ending_erased" }
+    ]
+  },
+  "ending_masterpiece": {
+    "text": "Դուք սկսում եք տպել։ Յուրաքանչյուր բառ կշիռ ունի, յուրաքանչյուր նախադասություն՝ շունչ։ Գիրքը դառնում է բեսթսելլեր, բայց դուք գիտեք, որ իրական հաղթանակը ձեր սեփական կերպարների հետ հաշտվելն էր...",
+    "character": "Հեղինակ",
+    "image": "https://images.unsplash.com/photo-1758483225022-e4284ef9b3ff?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fHx8",
+    "choices": [
+      { "text": "Խաղալ նորից", "nextNode": "node_intro" }
+    ]
+  },
+  "ending_erased": {
+    "text": "Դուք հանում եք թուղթը և պատռում այն։ Կերպարները ազատ են, և դուք նույնպես։ Որոշ պատմություններ ավելի լավ է չգրվեն։ Դուք դուրս եք գալիս անձրևի տակ՝ թողնելով «Ջնջող Մեքենան» հավերժ լռության մեջ...",
+    "character": "Հեղինակ",
+    "image": "https://images.stockcake.com/public/1/8/1/181b9d08-4944-48d4-8f3d-b4f3a592502f_large/lonely-stage-chair-stockcake.jpg",
+    "choices": [
+      { "text": "Խաղալ նորից", "nextNode": "node_intro" }
+    ]
+  }
+}

@@ -1,0 +1,685 @@
+/* Noir Detective Mobile-First Stylesheet */
+:root {
+    --bg-color: #2c251d;
+    --paper-color: #e8dfc5;
+    --ink-color: #1a1510;
+    --accent-color: #d4af37; /* Gold/Brass */
+    --border-color: #4a3f35;
+    --danger-color: #8b0000;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --transition-speed: 0.4s;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'EB Garamond', serif;
+    background-color: var(--bg-color);
+    color: var(--ink-color);
+    line-height: 1.6;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Noir Film Grain / Overlay */
+.noir-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: url('https://www.transparenttextures.com/patterns/pinstriped-suit.png');
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* Header */
+.mobile-header {
+    background-color: var(--ink-color);
+    color: var(--paper-color);
+    padding: 15px 20px;
+    padding-top: env(safe-area-inset-top, 15px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--accent-color);
+    z-index: 1001; /* Above noir-overlay */
+    position: relative;
+}
+
+.mobile-header h1 {
+    font-family: 'Courier Prime', monospace;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.icon-btn {
+    background: var(--ink-color);
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    padding: 10px 16px; /* Larger hit area */
+    border-radius: 2px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 var(--shadow-color);
+    transition: all 0.2s;
+    position: relative;
+    z-index: 1002;
+}
+
+.icon-btn:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 var(--shadow-color);
+}
+
+/* Notebook Overlay */
+.notebook-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1050;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+
+.notebook-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Notebook */
+.notebook {
+    position: fixed;
+    top: 0; left: 0; width: 85%; height: 100%;
+    background: #3d3329 url('https://www.transparenttextures.com/patterns/leather.png');
+    color: var(--paper-color);
+    z-index: 1100;
+    padding: 60px 25px 40px; /* Increased top padding for mobile */
+    box-shadow: 10px 0 30px rgba(0,0,0,0.8);
+    transform: translateX(-105%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+.notebook.active-mobile {
+    transform: translateX(0);
+}
+
+.hidden-mobile {
+    /* Allow fixed positioning to override this on mobile */
+}
+
+@media (max-width: 767px) {
+    .notebook {
+        display: flex !important; /* Force display when toggled */
+    }
+}
+
+.notebook-binding {
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 15px;
+    background: linear-gradient(to right, rgba(0,0,0,0.2), rgba(0,0,0,0.4));
+    border-left: 1px solid rgba(255,255,255,0.05);
+}
+
+.notebook h2 {
+    font-family: 'Courier Prime', monospace;
+    font-size: 1.4rem;
+    margin-bottom: 25px;
+    color: var(--accent-color);
+    border-bottom: 1px solid var(--accent-color);
+    padding-bottom: 10px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.principles-list {
+    list-style: none;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.principles-list li {
+    padding: 15px 0;
+    font-size: 1.05rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    font-style: italic;
+    line-height: 1.4;
+    animation: fadeInSlide 0.4s ease forwards;
+}
+
+@keyframes fadeInSlide {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.empty-notebook {
+    opacity: 0.5;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px; right: 15px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    z-index: 1101;
+}
+
+.mobile-only {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .mobile-only {
+        display: flex;
+    }
+}
+
+/* Layout */
+.main-layout {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 60px);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Visual Panel */
+.visual-panel {
+    background-color: #000;
+    height: 35vh;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 4px solid var(--ink-color);
+}
+
+.image-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+#scene-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(0.5) contrast(1.2) brightness(0.8);
+    transition: opacity 1s ease-in-out;
+}
+
+.character-container {
+    position: absolute;
+    bottom: 20px; left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 5;
+    background: rgba(26, 21, 16, 0.85);
+    padding: 8px 15px;
+    border-left: 4px solid var(--accent-color);
+}
+
+.avatar-silhouette {
+    width: 40px; height: 40px;
+    background-color: var(--accent-color);
+    clip-path: polygon(50% 0%, 80% 10%, 100% 35%, 100% 70%, 80% 90%, 50% 100%, 20% 90%, 0% 70%, 0% 35%, 20% 10%);
+    opacity: 0.8;
+}
+
+.character-name {
+    color: var(--paper-color);
+    font-weight: bold;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+/* Game Content */
+.game-content {
+    flex: 1;
+    background: var(--paper-color) url('https://www.transparenttextures.com/patterns/old-mathematics.png');
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: inset 0 0 100px rgba(0,0,0,0.1);
+}
+
+.manuscript {
+    flex: 1;
+    padding: 25px;
+    overflow-y: auto;
+    font-size: 1.2rem;
+    scrollbar-width: thin;
+}
+
+.story-text {
+    margin-bottom: 20px;
+    font-family: 'Courier Prime', monospace;
+    white-space: pre-wrap;
+    position: relative;
+}
+
+/* Typewriter Cursor */
+.story-text.typing::after {
+    content: '_';
+    animation: blink 0.8s infinite;
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Toolkit (Choices) */
+.toolkit {
+    background-color: var(--ink-color);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 -10px 20px rgba(0,0,0,0.3);
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+}
+
+.choice-btn {
+    background-color: #3b3024;
+    color: var(--paper-color);
+    border: 1px solid var(--border-color);
+    padding: 15px 20px;
+    font-family: 'EB Garamond', serif;
+    font-size: 1.05rem;
+    text-align: center;
+    border-radius: 4px;
+    box-shadow: 3px 3px 0 var(--shadow-color);
+    transition: transform 0.1s, background-color 0.2s;
+}
+
+.choice-btn:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 var(--shadow-color);
+    background-color: var(--border-color);
+}
+
+/* Modals */
+.modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: flex-end; /* Drawer style on mobile */
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.95);
+    padding: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal.hidden, .hidden {
+    display: none !important;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.puzzle-feedback {
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 4px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.95rem;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.puzzle-feedback.success {
+    background-color: rgba(0, 128, 0, 0.1);
+    color: #2e7d32;
+    border: 1px solid #2e7d32;
+}
+
+.puzzle-feedback.error {
+    background-color: rgba(139, 0, 0, 0.1);
+    color: var(--danger-color);
+    border: 1px solid var(--danger-color);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background: var(--paper-color) url('https://www.transparenttextures.com/patterns/pinstriped-suit.png');
+    border-radius: 20px 20px 0 0;
+    padding: 30px 20px;
+    border: none;
+    border-top: 4px solid var(--accent-color);
+    animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+    max-width: 600px;
+    max-height: 95vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
+#puzzle-title {
+    font-family: 'Courier Prime', monospace;
+    color: var(--ink-color);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+#puzzle-description {
+    font-style: italic;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+/* Puzzle Specific Styles */
+.puzzle-area {
+    margin: 20px 0;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.rashomon-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.draggable-statements {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 15px;
+    background: rgba(0,0,0,0.05);
+    border-radius: 4px;
+    min-height: 80px;
+}
+
+.rashomon-zones {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.word-card {
+    background-color: var(--ink-color);
+    color: var(--paper-color);
+    border: 1px solid var(--accent-color);
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: grab;
+    user-select: none;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.9rem;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+}
+
+.r-zone {
+    padding: 15px;
+    background: rgba(0,0,0,0.03);
+    border: 2px dashed var(--border-color);
+    border-radius: 4px;
+    min-height: 120px;
+    transition: background 0.3s;
+}
+
+.r-zone h4 {
+    margin-bottom: 10px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    opacity: 0.6;
+}
+
+.eraser-text {
+    background: transparent;
+    border: none;
+    font-family: 'Courier Prime', monospace;
+}
+
+.eraser-span.erased {
+    text-decoration: none;
+    opacity: 0.1;
+    filter: blur(2px);
+    transition: all 0.5s;
+}
+
+/* PUZZLE 3: Punctuation */
+.punct-tokens {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.punct-token {
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    background: var(--ink-color);
+    color: var(--paper-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    min-width: 50px;
+    text-align: center;
+    transition: all 0.2s;
+}
+.punct-token.selected {
+    background: var(--accent-color);
+    color: var(--ink-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.punct-sentence {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    line-height: 2.2;
+    font-family: 'Courier Prime', monospace;
+    padding: 15px;
+    background: rgba(0,0,0,0.02);
+    border-radius: 4px;
+}
+.punct-slot {
+    display: inline-block;
+    min-width: 35px;
+    height: 35px;
+    padding: 0 4px;
+    border: 2px dashed var(--border-color);
+    text-align: center;
+    line-height: 31px;
+    vertical-align: middle;
+    margin: 0 5px;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--ink-color);
+    background: #fff;
+    border-radius: 2px;
+    transition: all 0.2s;
+}
+.punct-slot:not(:empty) {
+    border-style: solid;
+    background: var(--paper-color);
+    color: var(--danger-color);
+}
+.punct-slot:empty::before {
+    content: '?';
+    opacity: 0.2;
+}
+
+/* PUZZLE 4: Timeline */
+.timeline-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.timeline-card {
+    background: var(--ink-color);
+    color: var(--paper-color);
+    padding: 15px;
+    border-radius: 4px;
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--accent-color);
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.95rem;
+}
+.timeline-card::before {
+    content: '≡';
+    margin-right: 15px;
+    color: var(--accent-color);
+    font-size: 1.2rem;
+}
+
+/* PUZZLE 5: Cipher (Fragment Reassembly) */
+.cipher-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+}
+
+.cipher-assembly-area {
+    width: 100%;
+    min-height: 80px;
+    background: rgba(0,0,0,0.05);
+    border: 2px dashed var(--accent-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.cipher-fragments {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.parchment-fragment {
+    background: #f4ecd8 url('https://www.transparenttextures.com/patterns/old-mathematics.png');
+    color: var(--ink-color);
+    padding: 15px 25px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border: 1px solid #dcd0b3;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+    cursor: pointer;
+    transform: rotate(var(--rot));
+    transition: all 0.2s;
+    user-select: none;
+    clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%);
+}
+
+.parchment-fragment:active {
+    transform: scale(0.95) rotate(var(--rot));
+}
+
+.parchment-fragment.assembled {
+    opacity: 0.3;
+    cursor: default;
+    pointer-events: none;
+}
+
+.assembled-piece {
+    font-family: 'Courier Prime', monospace;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--ink-color);
+    border-bottom: 2px solid var(--accent-color);
+    padding: 0 5px;
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* PUZZLE 6: Rapid Conflict */
+.conflict-scenario {
+    font-size: 1.3rem;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+    min-height: 80px;
+    font-family: 'Courier Prime', monospace;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.conflict-buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+@media (min-width: 480px) {
+    .conflict-buttons {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.check-btn {
+    background-color: var(--ink-color);
+    color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+/* Desktop Fixes */
+@media (min-width: 768px) {
+    .main-layout { flex-direction: row; height: 100vh; }
+    .mobile-header { display: none; }
+    .notebook { 
+        position: relative; 
+        transform: none; 
+        width: 300px; 
+        box-shadow: none; 
+        border-right: 2px solid var(--accent-color);
+    }
+    .container { flex-direction: row; flex: 1; }
+    .visual-panel { height: 100%; flex: 1; border-bottom: none; border-right: 4px solid var(--ink-color); }
+    .game-content { flex: 1.5; }
+    .modal { align-items: center; }
+    .modal-content { border-radius: 8px; max-width: 600px; }
+}

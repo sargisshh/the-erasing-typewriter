@@ -1,0 +1,21 @@
+{
+  "name": "Ջնջող Մեքենան",
+  "short_name": "Ջնջող Մեքենան",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1510",
+  "theme_color": "#1a1510",
+  "description": "An immersive noir detective interactive story.",
+  "icons": [
+    {
+      "src": "https://via.placeholder.com/192/d4af37/1a1510?text=Ջ",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://via.placeholder.com/512/d4af37/1a1510?text=Ջ",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

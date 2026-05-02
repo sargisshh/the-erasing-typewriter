@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a1510">
+    <title>Ջնջող Մեքենան</title>
+    <link rel="manifest" href="/static/manifest.json">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="noir-overlay"></div>
+    <div id="notebook-overlay" class="notebook-overlay"></div>
+    
+    <!-- Mobile header for notebook toggle -->
+    <header class="mobile-header">
+        <h1>Ջնջող Մեքենան</h1>
+        <button id="toggle-notebook-btn" class="icon-btn">📖 Օրագիր</button>
+    </header>
+
+    <div class="main-layout">
+        <!-- Sidebar: The Writer's Notebook -->
+        <div id="notebook" class="notebook hidden-mobile">
+            <button id="close-notebook-btn" class="icon-btn close-btn mobile-only">✖</button>
+            <div class="notebook-binding"></div>
+            <h2>Գրողի Օրագիրը</h2>
+            <ul id="principles-list" class="principles-list">
+                <li class="empty-notebook">Դեռևս դատարկ է...</li>
+            </ul>
+        </div>
+
+        <div class="container">
+            <div id="visual-panel" class="visual-panel">
+                <div class="character-container">
+                    <div id="character-avatar" class="avatar-silhouette"></div>
+                    <div id="character-name" class="character-name"></div>
+                </div>
+                <div class="image-wrapper">
+                     <img id="scene-image" src="" alt="Տեսարան">
+                </div>
+            </div>
+            
+            <div class="game-content">
+                <div id="manuscript" class="manuscript">
+                    <!-- Story text will appear here -->
+                </div>
+                <div id="toolkit" class="toolkit">
+                    <!-- Choices will appear here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Puzzle Modal -->
+    <div id="puzzle-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2 id="puzzle-title">Առաջադրանք</h2>
+            <p id="puzzle-description">Հրահանգ</p>
+            
+            <div id="puzzle-area" class="puzzle-area">
+                <!-- Dynamic puzzle content goes here -->
+            </div>
+
+            <div id="puzzle-feedback" class="puzzle-feedback hidden"></div>
+            <button id="check-puzzle-btn" class="choice-btn check-btn">Ստուգել</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/drag-drop-touch@1.1.0/DragDropTouch.min.js"></script>
+    <script src="/static/game.js"></script>
+</body>
+</html>
