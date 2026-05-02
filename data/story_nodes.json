@@ -51,7 +51,7 @@
     "character": "Բելլա",
     "image": "https://images.stockcake.com/public/e/6/2/e62f1530-8b7c-4cbf-b900-d8d56745bb81/chaotic-paper-cascade-stockcake.jpg",
     "choices": [
-      { "text": "Վերակառուցել Սյուժեն", "nextNode": "puzzle_phase4" }
+      { "text": "Վերակառուցել սյուժեն", "nextNode": "puzzle_phase4" }
     ]
   },
   "puzzle_phase4": {
@@ -64,7 +64,7 @@
     "character": "Վահան",
     "image": "https://images.stockcake.com/public/8/a/b/8abb3cb7-2457-4dac-9661-aa9b51da6695_large/antique-writing-desk-stockcake.jpg",
     "choices": [
-      { "text": "Բացահայտել Վերնագիրը", "nextNode": "puzzle_phase5" }
+      { "text": "Բացահայտել վերնագիրը", "nextNode": "puzzle_phase5" }
     ]
   },
   "puzzle_phase5": {
@@ -77,7 +77,7 @@
     "character": "Բելլա",
     "image": "https://images.stockcake.com/public/c/d/b/cdb3e61f-d3bf-4087-b289-bebe0d79280f_large/ink-disrupts-writing-stockcake.jpg",
     "choices": [
-      { "text": "Հաղթահարել Կոնֆլիկտը", "nextNode": "puzzle_phase6" }
+      { "text": "Հաղթահարել կոնֆլիկտը", "nextNode": "puzzle_phase6" }
     ]
   },
   "puzzle_phase6": {
@@ -90,8 +90,8 @@
     "character": "Հեղինակ",
     "image": "https://images.stockcake.com/public/7/c/1/7c1421dc-baad-4bd1-945a-29fca3586e6b/typewriter-by-window-stockcake.jpg",
     "choices": [
-      { "text": "Գրել Գլուխգործոցը", "nextNode": "ending_masterpiece" },
-      { "text": "Ջնջել Անցյալը", "nextNode": "ending_erased" }
+      { "text": "Գրել գլուխգործոցը", "nextNode": "ending_masterpiece" },
+      { "text": "Ջնջել անցյալը", "nextNode": "ending_erased" }
     ]
   },
   "ending_masterpiece": {

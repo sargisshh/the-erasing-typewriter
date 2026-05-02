@@ -242,7 +242,6 @@ function openPuzzle(puzzleId, successNode) {
 }
 
 // --- PUZZLE 1: RASHOMON ---
-let draggedItem = null;
 function setupRashomon(container, puzzle) {
     const wrap = document.createElement('div');
     wrap.className = 'rashomon-container';
@@ -253,20 +252,71 @@ function setupRashomon(container, puzzle) {
     puzzle.statements.sort(() => Math.random() - 0.5).forEach(stmt => {
         const card = document.createElement('div');
         card.className = 'word-card';
-        card.draggable = true;
         card.textContent = stmt.text;
         card.dataset.id = stmt.id;
-        card.addEventListener('dragstart', e => {
-            draggedItem = card;
+        card.style.touchAction = 'none';
+
+        card.onpointerdown = (e) => {
+            // Only left mouse button or touch
+            if (e.pointerType === 'mouse' && e.button !== 0) return;
+            
+            const startX = e.clientX;
+            const startY = e.clientY;
+            const rect = card.getBoundingClientRect();
+            const offsetX = startX - rect.left;
+            const offsetY = startY - rect.top;
+
+            card.setPointerCapture(e.pointerId);
             card.classList.add('dragging');
-            e.dataTransfer.setData('text', card.dataset.id);
             triggerHaptic(10);
-        });
-        card.addEventListener('dragend', () => {
-            draggedItem = null;
-            card.classList.remove('dragging');
-            document.querySelectorAll('.r-zone').forEach(z => z.classList.remove('drag-over'));
-        });
+
+            // Clone to show under finger if needed, but here we'll just move the actual element
+            card.style.position = 'fixed';
+            card.style.width = rect.width + 'px';
+            card.style.left = rect.left + 'px';
+            card.style.top = rect.top + 'px';
+            card.style.zIndex = '9999';
+
+            const onPointerMove = (moveEvent) => {
+                card.style.left = (moveEvent.clientX - offsetX) + 'px';
+                card.style.top = (moveEvent.clientY - offsetY) + 'px';
+
+                // Check for hover over zones
+                document.querySelectorAll('.r-zone').forEach(z => z.classList.remove('drag-over'));
+                const overEl = document.elementFromPoint(moveEvent.clientX, moveEvent.clientY);
+                const zone = overEl?.closest('.r-zone');
+                if (zone) zone.classList.add('drag-over');
+            };
+
+            const onPointerUp = (upEvent) => {
+                card.releasePointerCapture(upEvent.pointerId);
+                card.classList.remove('dragging');
+                card.style.position = '';
+                card.style.width = '';
+                card.style.left = '';
+                card.style.top = '';
+                card.style.zIndex = '';
+
+                document.querySelectorAll('.r-zone').forEach(z => z.classList.remove('drag-over'));
+                
+                const overEl = document.elementFromPoint(upEvent.clientX, upEvent.clientY);
+                const zone = overEl?.closest('.r-zone');
+                
+                if (zone) {
+                    zone.appendChild(card);
+                    triggerHaptic(20);
+                } else {
+                    sourceDiv.appendChild(card); // Return to source if not dropped in zone
+                }
+
+                card.onpointermove = null;
+                card.onpointerup = null;
+            };
+
+            card.onpointermove = onPointerMove;
+            card.onpointerup = onPointerUp;
+        };
+
         sourceDiv.appendChild(card);
     });
 
@@ -277,23 +327,6 @@ function setupRashomon(container, puzzle) {
         zone.className = `r-zone ${owner}`;
         zone.dataset.owner = owner;
         zone.innerHTML = `<h4>${owner === 'bella' ? 'Բելլա (Ներքևում)' : 'Վահան (Վերևում)'}</h4>`;
-        zone.addEventListener('dragover', e => {
-            e.preventDefault();
-            zone.classList.add('drag-over');
-        });
-        zone.addEventListener('dragleave', () => {
-            zone.classList.remove('drag-over');
-        });
-        zone.addEventListener('drop', e => {
-            e.preventDefault();
-            zone.classList.remove('drag-over');
-            const id = e.dataTransfer.getData('text');
-            const el = draggedItem || document.querySelector(`.word-card[data-id="${id}"]`);
-            if (el) {
-                zone.appendChild(el);
-                triggerHaptic(20);
-            }
-        });
         zonesDiv.appendChild(zone);
     });
     wrap.appendChild(sourceDiv);
@@ -400,32 +433,82 @@ function checkPunctuation(puzzle) {
 function setupTimeline(container, puzzle) {
     const list = document.createElement('div');
     list.className = 'timeline-container';
+    
     puzzle.cards.sort(() => Math.random() - 0.5).forEach(card => {
         const div = document.createElement('div');
         div.className = 'timeline-card';
-        div.draggable = true;
-        div.textContent = card.text;
         div.dataset.id = card.id;
-        div.addEventListener('dragstart', function(e) {
-            draggedItem = this;
-            this.classList.add('dragging');
-            e.dataTransfer.effectAllowed = 'move';
-            triggerHaptic(10);
-        });
-        div.addEventListener('dragover', function(e) {
-            e.preventDefault();
-            const afterElement = getDragAfterElement(list, e.clientY);
-            if (afterElement == null) {
-                list.appendChild(draggedItem);
-            } else {
-                list.insertBefore(draggedItem, afterElement);
+        
+        const textSpan = document.createElement('span');
+        textSpan.textContent = card.text;
+        textSpan.style.flex = '1';
+        div.appendChild(textSpan);
+
+        // Mobile fallback buttons
+        const controls = document.createElement('div');
+        controls.className = 'timeline-controls';
+        controls.style.display = 'flex';
+        controls.style.flexDirection = 'column';
+        controls.style.gap = '4px';
+
+        const upBtn = document.createElement('button');
+        upBtn.innerHTML = '▲';
+        upBtn.className = 'icon-btn small';
+        upBtn.onclick = (e) => {
+            e.stopPropagation();
+            const prev = div.previousElementSibling;
+            if (prev) {
+                list.insertBefore(div, prev);
+                triggerHaptic(15);
             }
-        });
-        div.addEventListener('dragend', function() { 
-            this.classList.remove('dragging');
-            draggedItem = null;
-            triggerHaptic(20);
-        });
+        };
+
+        const downBtn = document.createElement('button');
+        downBtn.innerHTML = '▼';
+        downBtn.className = 'icon-btn small';
+        downBtn.onclick = (e) => {
+            e.stopPropagation();
+            const next = div.nextElementSibling;
+            if (next) {
+                list.insertBefore(next, div);
+                triggerHaptic(15);
+            }
+        };
+
+        controls.appendChild(upBtn);
+        controls.appendChild(downBtn);
+        div.appendChild(controls);
+
+        // Pointer Event dragging
+        div.onpointerdown = (e) => {
+            if (e.target.tagName === 'BUTTON') return;
+            if (e.pointerType === 'mouse' && e.button !== 0) return;
+
+            div.setPointerCapture(e.pointerId);
+            div.classList.add('dragging');
+            triggerHaptic(10);
+
+            const onPointerMove = (moveEvent) => {
+                const afterElement = getDragAfterElement(list, moveEvent.clientY);
+                if (afterElement == null) {
+                    list.appendChild(div);
+                } else {
+                    list.insertBefore(div, afterElement);
+                }
+            };
+
+            const onPointerUp = (upEvent) => {
+                div.releasePointerCapture(upEvent.pointerId);
+                div.classList.remove('dragging');
+                div.onpointermove = null;
+                div.onpointerup = null;
+                triggerHaptic(20);
+            };
+
+            div.onpointermove = onPointerMove;
+            div.onpointerup = onPointerUp;
+        };
+
         list.appendChild(div);
     });
     container.appendChild(list);

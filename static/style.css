@@ -75,9 +75,20 @@ body {
     z-index: 1002;
 }
 
-.icon-btn:active {
-    transform: translate(1px, 1px);
-    box-shadow: 1px 1px 0 var(--shadow-color);
+.icon-btn.small {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    min-width: 30px;
+}
+
+.timeline-controls {
+    margin-left: 10px;
+}
+
+@media (min-width: 768px) {
+    .timeline-controls {
+        display: none !important;
+    }
 }
 
 /* Notebook Overlay */
