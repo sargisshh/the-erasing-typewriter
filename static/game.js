@@ -242,6 +242,7 @@ function openPuzzle(puzzleId, successNode) {
 }
 
 // --- PUZZLE 1: RASHOMON ---
+let draggedItem = null;
 function setupRashomon(container, puzzle) {
     const wrap = document.createElement('div');
     wrap.className = 'rashomon-container';
@@ -256,8 +257,12 @@ function setupRashomon(container, puzzle) {
         card.textContent = stmt.text;
         card.dataset.id = stmt.id;
         card.addEventListener('dragstart', e => {
+            draggedItem = card;
             e.dataTransfer.setData('text', card.dataset.id);
             triggerHaptic(10);
+        });
+        card.addEventListener('dragend', () => {
+            draggedItem = null;
         });
         sourceDiv.appendChild(card);
     });
@@ -273,7 +278,7 @@ function setupRashomon(container, puzzle) {
         zone.addEventListener('drop', e => {
             e.preventDefault();
             const id = e.dataTransfer.getData('text');
-            const el = document.querySelector(`.word-card[data-id="${id}"]`);
+            const el = draggedItem || document.querySelector(`.word-card[data-id="${id}"]`);
             if (el) {
                 zone.appendChild(el);
                 triggerHaptic(20);
@@ -385,7 +390,6 @@ function checkPunctuation(puzzle) {
 function setupTimeline(container, puzzle) {
     const list = document.createElement('div');
     list.className = 'timeline-container';
-    let draggedEl = null;
     puzzle.cards.sort(() => Math.random() - 0.5).forEach(card => {
         const div = document.createElement('div');
         div.className = 'timeline-card';
@@ -393,20 +397,23 @@ function setupTimeline(container, puzzle) {
         div.textContent = card.text;
         div.dataset.id = card.id;
         div.addEventListener('dragstart', function(e) {
-            draggedEl = this;
+            draggedItem = this;
             e.dataTransfer.effectAllowed = 'move';
             this.style.opacity = '0.4';
             triggerHaptic(10);
         });
         div.addEventListener('drop', function(e) {
             e.stopPropagation();
-            if (draggedEl !== this) {
-                list.insertBefore(draggedEl, this);
+            if (draggedItem && draggedItem !== this) {
+                list.insertBefore(draggedItem, this);
                 triggerHaptic(20);
             }
             return false;
         });
-        div.addEventListener('dragend', function() { this.style.opacity = '1'; });
+        div.addEventListener('dragend', function() { 
+            this.style.opacity = '1'; 
+            draggedItem = null;
+        });
         div.addEventListener('dragover', e => e.preventDefault());
         list.appendChild(div);
     });

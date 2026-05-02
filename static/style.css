@@ -441,6 +441,8 @@ body {
     border-radius: 4px;
     cursor: grab;
     user-select: none;
+    touch-action: none;
+    -webkit-user-drag: element;
     font-family: 'Courier Prime', monospace;
     font-size: 0.9rem;
     box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
@@ -448,6 +450,13 @@ body {
 
 .r-zone {
     padding: 15px;
+    background: rgba(0,0,0,0.03);
+    border: 2px dashed var(--border-color);
+    border-radius: 4px;
+    min-height: 120px;
+    transition: background 0.3s;
+    touch-action: pan-y;
+}
     background: rgba(0,0,0,0.03);
     border: 2px dashed var(--border-color);
     border-radius: 4px;
@@ -556,6 +565,9 @@ body {
     border: 1px solid var(--accent-color);
     font-family: 'Courier Prime', monospace;
     font-size: 0.95rem;
+    user-select: none;
+    touch-action: none;
+    -webkit-user-drag: element;
 }
 .timeline-card::before {
     content: '≡';
