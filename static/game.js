@@ -255,11 +255,12 @@ function setupRashomon(container, puzzle) {
         card.textContent = stmt.text;
         card.dataset.id = stmt.id;
         card.style.touchAction = 'none';
+        card.draggable = false; // Disable native drag
 
         card.onpointerdown = (e) => {
-            // Only left mouse button or touch
             if (e.pointerType === 'mouse' && e.button !== 0) return;
             
+            e.preventDefault();
             const startX = e.clientX;
             const startY = e.clientY;
             const rect = card.getBoundingClientRect();
@@ -268,9 +269,9 @@ function setupRashomon(container, puzzle) {
 
             card.setPointerCapture(e.pointerId);
             card.classList.add('dragging');
+            card.style.pointerEvents = 'none'; // Let elementFromPoint see through the card
             triggerHaptic(10);
 
-            // Clone to show under finger if needed, but here we'll just move the actual element
             card.style.position = 'fixed';
             card.style.width = rect.width + 'px';
             card.style.left = rect.left + 'px';
@@ -281,7 +282,6 @@ function setupRashomon(container, puzzle) {
                 card.style.left = (moveEvent.clientX - offsetX) + 'px';
                 card.style.top = (moveEvent.clientY - offsetY) + 'px';
 
-                // Check for hover over zones
                 document.querySelectorAll('.r-zone').forEach(z => z.classList.remove('drag-over'));
                 const overEl = document.elementFromPoint(moveEvent.clientX, moveEvent.clientY);
                 const zone = overEl?.closest('.r-zone');
@@ -291,6 +291,7 @@ function setupRashomon(container, puzzle) {
             const onPointerUp = (upEvent) => {
                 card.releasePointerCapture(upEvent.pointerId);
                 card.classList.remove('dragging');
+                card.style.pointerEvents = 'auto';
                 card.style.position = '';
                 card.style.width = '';
                 card.style.left = '';
@@ -306,7 +307,7 @@ function setupRashomon(container, puzzle) {
                     zone.appendChild(card);
                     triggerHaptic(20);
                 } else {
-                    sourceDiv.appendChild(card); // Return to source if not dropped in zone
+                    sourceDiv.appendChild(card);
                 }
 
                 card.onpointermove = null;
@@ -484,6 +485,7 @@ function setupTimeline(container, puzzle) {
             if (e.target.tagName === 'BUTTON') return;
             if (e.pointerType === 'mouse' && e.button !== 0) return;
 
+            e.preventDefault();
             div.setPointerCapture(e.pointerId);
             div.classList.add('dragging');
             triggerHaptic(10);
@@ -509,6 +511,7 @@ function setupTimeline(container, puzzle) {
             div.onpointerup = onPointerUp;
         };
 
+        div.draggable = false; // Disable native drag logic
         list.appendChild(div);
     });
     container.appendChild(list);
