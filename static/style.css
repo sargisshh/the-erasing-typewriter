@@ -57,7 +57,7 @@ body {
     font-family: 'Courier Prime', monospace;
     font-size: 1.1rem;
     letter-spacing: 2px;
-    text-transform: uppercase;
+    
 }
 
 .icon-btn {
@@ -400,7 +400,7 @@ body {
 #puzzle-title {
     font-family: 'Courier Prime', monospace;
     color: var(--ink-color);
-    text-transform: uppercase;
+    
     letter-spacing: 2px;
     margin-bottom: 10px;
     font-size: 1.2rem;
@@ -490,7 +490,7 @@ body {
     margin-bottom: 10px;
     font-family: 'Courier Prime', monospace;
     font-size: 0.8rem;
-    text-transform: uppercase;
+    
     opacity: 0.6;
 }
 
@@ -620,6 +620,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap; /* Added for mobile responsiveness */
     gap: 10px;
     padding: 15px;
     border-radius: 8px;
@@ -629,15 +630,15 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 15px;
+    gap: 12px;
 }
 
 .parchment-fragment {
     background: #f4ecd8 url('https://www.transparenttextures.com/patterns/old-mathematics.png');
     color: var(--ink-color);
-    padding: 15px 25px;
+    padding: 12px 20px;
     font-family: 'Courier Prime', monospace;
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     font-weight: bold;
     border: 1px solid #dcd0b3;
     box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
@@ -660,12 +661,23 @@ body {
 
 .assembled-piece {
     font-family: 'Courier Prime', monospace;
-    font-size: 1.8rem;
+    font-size: 1.4rem; /* Reduced from 1.8rem for mobile */
     font-weight: bold;
     color: var(--ink-color);
     border-bottom: 2px solid var(--accent-color);
     padding: 0 5px;
+    margin: 5px 0;
+    cursor: pointer;
     animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@media (min-width: 768px) {
+    .assembled-piece {
+        font-size: 1.8rem;
+    }
+    .parchment-fragment {
+        font-size: 1.5rem;
+    }
 }
 
 @keyframes popIn {
@@ -701,7 +713,7 @@ body {
     background-color: var(--ink-color);
     color: var(--accent-color);
     border: 2px solid var(--accent-color);
-    text-transform: uppercase;
+    
     font-weight: bold;
     letter-spacing: 2px;
 }
