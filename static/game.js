@@ -267,9 +267,8 @@ function setupRashomon(container, puzzle) {
             const offsetX = startX - rect.left;
             const offsetY = startY - rect.top;
 
-            card.setPointerCapture(e.pointerId);
             card.classList.add('dragging');
-            card.style.pointerEvents = 'none'; // Let elementFromPoint see through the card
+            card.style.pointerEvents = 'none'; 
             triggerHaptic(10);
 
             card.style.position = 'fixed';
@@ -289,7 +288,9 @@ function setupRashomon(container, puzzle) {
             };
 
             const onPointerUp = (upEvent) => {
-                card.releasePointerCapture(upEvent.pointerId);
+                window.removeEventListener('pointermove', onPointerMove);
+                window.removeEventListener('pointerup', onPointerUp);
+
                 card.classList.remove('dragging');
                 card.style.pointerEvents = 'auto';
                 card.style.position = '';
@@ -309,13 +310,10 @@ function setupRashomon(container, puzzle) {
                 } else {
                     sourceDiv.appendChild(card);
                 }
-
-                card.onpointermove = null;
-                card.onpointerup = null;
             };
 
-            card.onpointermove = onPointerMove;
-            card.onpointerup = onPointerUp;
+            window.addEventListener('pointermove', onPointerMove);
+            window.addEventListener('pointerup', onPointerUp);
         };
 
         sourceDiv.appendChild(card);
@@ -486,7 +484,6 @@ function setupTimeline(container, puzzle) {
             if (e.pointerType === 'mouse' && e.button !== 0) return;
 
             e.preventDefault();
-            div.setPointerCapture(e.pointerId);
             div.classList.add('dragging');
             triggerHaptic(10);
 
@@ -499,16 +496,15 @@ function setupTimeline(container, puzzle) {
                 }
             };
 
-            const onPointerUp = (upEvent) => {
-                div.releasePointerCapture(upEvent.pointerId);
+            const onPointerUp = () => {
+                window.removeEventListener('pointermove', onPointerMove);
+                window.removeEventListener('pointerup', onPointerUp);
                 div.classList.remove('dragging');
-                div.onpointermove = null;
-                div.onpointerup = null;
                 triggerHaptic(20);
             };
 
-            div.onpointermove = onPointerMove;
-            div.onpointerup = onPointerUp;
+            window.addEventListener('pointermove', onPointerMove);
+            window.addEventListener('pointerup', onPointerUp);
         };
 
         div.draggable = false; // Disable native drag logic
