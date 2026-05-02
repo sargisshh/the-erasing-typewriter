@@ -258,11 +258,14 @@ function setupRashomon(container, puzzle) {
         card.dataset.id = stmt.id;
         card.addEventListener('dragstart', e => {
             draggedItem = card;
+            card.classList.add('dragging');
             e.dataTransfer.setData('text', card.dataset.id);
             triggerHaptic(10);
         });
         card.addEventListener('dragend', () => {
             draggedItem = null;
+            card.classList.remove('dragging');
+            document.querySelectorAll('.r-zone').forEach(z => z.classList.remove('drag-over'));
         });
         sourceDiv.appendChild(card);
     });
@@ -274,9 +277,16 @@ function setupRashomon(container, puzzle) {
         zone.className = `r-zone ${owner}`;
         zone.dataset.owner = owner;
         zone.innerHTML = `<h4>${owner === 'bella' ? 'Բելլա (Ներքևում)' : 'Վահան (Վերևում)'}</h4>`;
-        zone.addEventListener('dragover', e => e.preventDefault());
+        zone.addEventListener('dragover', e => {
+            e.preventDefault();
+            zone.classList.add('drag-over');
+        });
+        zone.addEventListener('dragleave', () => {
+            zone.classList.remove('drag-over');
+        });
         zone.addEventListener('drop', e => {
             e.preventDefault();
+            zone.classList.remove('drag-over');
             const id = e.dataTransfer.getData('text');
             const el = draggedItem || document.querySelector(`.word-card[data-id="${id}"]`);
             if (el) {
@@ -398,26 +408,40 @@ function setupTimeline(container, puzzle) {
         div.dataset.id = card.id;
         div.addEventListener('dragstart', function(e) {
             draggedItem = this;
+            this.classList.add('dragging');
             e.dataTransfer.effectAllowed = 'move';
-            this.style.opacity = '0.4';
             triggerHaptic(10);
         });
-        div.addEventListener('drop', function(e) {
-            e.stopPropagation();
-            if (draggedItem && draggedItem !== this) {
-                list.insertBefore(draggedItem, this);
-                triggerHaptic(20);
+        div.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            const afterElement = getDragAfterElement(list, e.clientY);
+            if (afterElement == null) {
+                list.appendChild(draggedItem);
+            } else {
+                list.insertBefore(draggedItem, afterElement);
             }
-            return false;
         });
         div.addEventListener('dragend', function() { 
-            this.style.opacity = '1'; 
+            this.classList.remove('dragging');
             draggedItem = null;
+            triggerHaptic(20);
         });
-        div.addEventListener('dragover', e => e.preventDefault());
         list.appendChild(div);
     });
     container.appendChild(list);
+}
+
+function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('.timeline-card:not(.dragging)')];
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+        } else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
 
 function checkTimeline(puzzle) {

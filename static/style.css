@@ -437,15 +437,21 @@ body {
     background-color: var(--ink-color);
     color: var(--paper-color);
     border: 1px solid var(--accent-color);
-    padding: 10px 15px;
-    border-radius: 4px;
+    padding: 12px 18px;
+    border-radius: 6px;
     cursor: grab;
     user-select: none;
     touch-action: none;
     -webkit-user-drag: element;
     font-family: 'Courier Prime', monospace;
-    font-size: 0.9rem;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    font-size: 1rem;
+    box-shadow: 3px 3px 0 var(--shadow-color);
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.word-card.dragging {
+    opacity: 0.7;
+    transform: scale(1.05);
 }
 
 .r-zone {
@@ -454,8 +460,13 @@ body {
     border: 2px dashed var(--border-color);
     border-radius: 4px;
     min-height: 120px;
-    transition: background 0.3s;
+    transition: background 0.3s, border-color 0.3s;
     touch-action: pan-y;
+}
+
+.r-zone.drag-over {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: var(--accent-color);
 }
     background: rgba(0,0,0,0.03);
     border: 2px dashed var(--border-color);
@@ -557,17 +568,23 @@ body {
 .timeline-card {
     background: var(--ink-color);
     color: var(--paper-color);
-    padding: 15px;
-    border-radius: 4px;
+    padding: 18px;
+    border-radius: 6px;
     cursor: grab;
     display: flex;
     align-items: center;
     border: 1px solid var(--accent-color);
     font-family: 'Courier Prime', monospace;
-    font-size: 0.95rem;
+    font-size: 1rem;
     user-select: none;
     touch-action: none;
     -webkit-user-drag: element;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.timeline-card.dragging {
+    opacity: 0.5;
+    background: #3b3024;
 }
 .timeline-card::before {
     content: '≡';
