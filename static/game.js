@@ -536,16 +536,48 @@ function checkTimeline(puzzle) {
 // --- PUZZLE 5: CIPHER ---
 let assembledSequence = [];
 function setupCipher(container, puzzle) {
+    // Clear the container first to prevent duplication
+    container.innerHTML = '';
     assembledSequence = [];
+    
     const wrap = document.createElement('div');
     wrap.className = 'cipher-container';
+    
     const assemblyArea = document.createElement('div');
     assemblyArea.className = 'cipher-assembly-area';
     assemblyArea.id = 'assembly-area';
-    assemblyArea.innerHTML = '<span style="opacity: 0.3;">Կտորները կհայտնվեն այստեղ...</span>';
+    
+    const updateAssemblyUI = () => {
+        assemblyArea.innerHTML = '';
+        if (assembledSequence.length === 0) {
+            assemblyArea.innerHTML = '<span style="opacity: 0.3;">Կտորները կհայտնվեն այստեղ...</span>';
+        } else {
+            assembledSequence.forEach(id => {
+                const frag = puzzle.fragments.find(f => f.id === id);
+                const piece = document.createElement('span');
+                piece.className = 'assembled-piece';
+                piece.textContent = frag.text;
+                piece.onclick = () => removeFragment(id); // Allow clicking in assembly area to remove too
+                assemblyArea.appendChild(piece);
+            });
+        }
+    };
+
+    const removeFragment = (id) => {
+        const index = assembledSequence.indexOf(id);
+        if (index > -1) {
+            assembledSequence.splice(index, 1);
+            const fragEl = container.querySelector(`.parchment-fragment[data-id="${id}"]`);
+            if (fragEl) fragEl.classList.remove('assembled');
+            triggerHaptic(15);
+            updateAssemblyUI();
+        }
+    };
+
     const fragmentsDiv = document.createElement('div');
     fragmentsDiv.className = 'cipher-fragments';
     const shuffled = [...puzzle.fragments].sort(() => Math.random() - 0.5);
+    
     shuffled.forEach(frag => {
         const fragEl = document.createElement('div');
         fragEl.className = 'parchment-fragment';
@@ -553,28 +585,36 @@ function setupCipher(container, puzzle) {
         fragEl.dataset.id = frag.id;
         const rot = (Math.random() * 6 - 3).toFixed(1) + 'deg';
         fragEl.style.setProperty('--rot', rot);
+        
         fragEl.onclick = () => {
-            if (fragEl.classList.contains('assembled')) return;
-            triggerHaptic(20);
-            fragEl.classList.add('assembled');
-            if (assembledSequence.length === 0) assemblyArea.innerHTML = '';
-            assembledSequence.push(frag.id);
-            const piece = document.createElement('span');
-            piece.className = 'assembled-piece';
-            piece.textContent = frag.text;
-            assemblyArea.appendChild(piece);
+            if (fragEl.classList.contains('assembled')) {
+                // If already used, clicking it again removes it (Undo)
+                removeFragment(frag.id);
+            } else {
+                // Add to sequence
+                triggerHaptic(20);
+                fragEl.classList.add('assembled');
+                assembledSequence.push(frag.id);
+                updateAssemblyUI();
+            }
         };
         fragmentsDiv.appendChild(fragEl);
     });
+
     const resetBtn = document.createElement('button');
     resetBtn.className = 'icon-btn';
     resetBtn.style.marginTop = '20px';
     resetBtn.textContent = '🔄 Սկսել նորից';
-    resetBtn.onclick = () => { triggerHaptic(40); setupCipher(container, puzzle); };
+    resetBtn.onclick = () => { 
+        triggerHaptic(40); 
+        setupCipher(container, puzzle); 
+    };
+
     wrap.appendChild(assemblyArea);
     wrap.appendChild(fragmentsDiv);
     wrap.appendChild(resetBtn);
     container.appendChild(wrap);
+    updateAssemblyUI();
 }
 
 function checkCipher(puzzle) {
